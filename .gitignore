@@ -1,0 +1,152 @@
+# ============================================================
+#  Weightboard System — .gitignore
+#  项目构成：Sender/(GD32E230 固件, Keil)  Reciver/(STM32F103 固件, Keil)
+#            UI/(Python + PyQt5 上位机)
+# ============================================================
+
+# ------------------------------------------------------------
+#  一、Keil MDK 编译产物
+#  注意：RTE\ 目录里的 *.base@x.y.z 与 RTE_Components.h 是库源码，
+#        编译必需，因此【不能】整目录忽略，只忽略下面的产物。
+# ------------------------------------------------------------
+# 构建输出目录（Sender\Objects、Sender\Listings 等）
+Objects/
+Listings/
+*.build_log.htm
+*.htm
+*.lst
+
+# 目标文件与依赖
+*.o
+*.d
+*.crf
+*.dep
+*.lnp
+*.iex
+*.sct
+*.ld
+
+# 可执行镜像（需要归档的 hex/bin 请单独放 releases\ 目录并用 ! 放行）
+*.axf
+*.elf
+*.hex
+*.bin
+*.out
+
+# 符号表 / 映射表
+*.map
+
+# Keil 生成 / 用户相关（这几项都是本机生成、不属于设计内容）
+#   *.uvguix.*  调试窗口布局，因机器/用户而异（如 weight.uvguix.USER）
+#   *.dbgconf   由 DFP 器件包释放的通用调试配置，Keil 会自动重建
+#   *.scvd      事件记录器描述文件，由编译器生成
+*.uvguix.*
+*.uvguix
+*.dbgconf
+*.scvd
+
+# ------------------------------------------------------------
+#  二、STM32CubeMX
+# ------------------------------------------------------------
+# .mxproject 是 CubeMX 的缓存，可安全忽略
+# （project.ioc 必须保留 —— 它是工程配置源文件）
+.mxproject
+
+# ------------------------------------------------------------
+#  三、Python 上位机（UI/sensor_hub）
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 打包产物（build_exe.py 生成）
+build/
+dist/
+*.spec
+*.exe
+*.msi
+
+# 虚拟环境
+venv/
+.venv/
+env/
+ENV/
+.conda/
+
+# 依赖与工具缓存
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.python-version
+
+# ------------------------------------------------------------
+#  四、运行期产物（上位机日志 / 记录 / 截图）
+# ------------------------------------------------------------
+# 串口接收与解析日志
+*.log
+recv.log
+e2e_recv.log
+parse_debug.log
+build_check.log
+build_fix.log
+
+# 测试与演示产生的临时文件
+e2e_raw.bin
+screenshot_demo.png
+ui_tiles.png
+ui_dark.png
+ui_glass_green.png
+ui_light_green.png
+grid_overview.png
+
+# CSV 记录（按需保留时手工 git add -f）
+sensor_data.csv
+*.csv
+
+# 本地配置（每台机器路径/串口不同）
+.sensor_hub.json
+.env
+.env.*
+!.env.example
+
+# ------------------------------------------------------------
+#  五、改代码时留下的时间戳备份
+#  本项目的备份命名形如 main.c.bak_20261012_190743
+#  历史已由 git 管理，这些副本不再入库
+# ------------------------------------------------------------
+*.bak
+*.bak_*
+*.orig
+*.rej
+*~
+*.tmp
+
+# ------------------------------------------------------------
+#  六、操作系统与编辑器
+# ------------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+._*
+
+.vscode/
+.idea/
+UI/artifacts/
+UI/previews/
+UI/screenshot_*.png
+UI/build_entry.py
+UI/app.ico
+*.swp
+*.swo
+*~
+
+# ============================================================
+#  如需强制纳入某个被忽略的文件：
+#      git add -f <路径>
+#  例如要归档编译好的固件：
+#      git add -f Sender/Objects/weight.hex
+# ============================================================
